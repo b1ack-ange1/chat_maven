@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>hasCode.com - Java EE 7 Websocket Tutorial</title>
+<title>intelinvest - chatroom</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="Micha Kops">
@@ -54,6 +54,18 @@ body {
 	width: 160px;
 	font-size: 10px;
 }
+.badge {
+    max-width: 80%;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+}
+table {
+    border-spacing: 4px !important;
+    table-layout:fixed !important; /* это обязательно */
+}
+.shortDate {
+    font-size: 8px;
+}
 </style>
 <link href="./resource/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -74,19 +86,21 @@ body {
 <link rel="shortcut icon" href="./resource/ico/favicon.png">
 <script>
 	var wsocket;
-	var serviceLocation = "ws://0.0.0.0:8080/hascode/chat/";
+	var serviceLocation = "ws://localhost/intelinvest-chat/chat/";
 	var $nickName;
 	var $message;
 	var $chatWindow;
 	var room = '';
 
 	function onMessageReceived(evt) {
-		var msg = JSON.parse(evt.data); // native API
-		var $messageLine = $('<tr><td class="received">' + msg.received
-				+ '</td><td class="user label label-info">' + msg.sender
+		var msg = JSON.parse(evt.data);
+                console.log(evt.data);// native API
+		var $messageLine = $( '<tr><td class="user label label-info">' + msg.sender
+                                + '<p class="shortDate">' + msg.received + '</p>'
 				+ '</td><td class="message badge">' + msg.message
 				+ '</td></tr>');
 		$chatWindow.append($messageLine);
+                $scrollPanel.animate({ scrollTop: $scrollPanel[0].scrollHeight}, 1000);
 	}
 	function sendMessage() {
 		var msg = '{"message":"' + $message.val() + '", "sender":"'
@@ -113,6 +127,7 @@ body {
 		$nickName = $('#nickname');
 		$message = $('#message');
 		$chatWindow = $('#response');
+                $scrollPanel = $('#scroll-panel');
 		$('.chat-wrapper').hide();
 		$nickName.focus();
 		
@@ -161,7 +176,9 @@ body {
 	<div class="container chat-wrapper">
 		<form id="do-chat">
 			<h2 class="alert alert-success"></h2>
-			<table id="response" class="table table-bordered"></table>
+                        <div id="scroll-panel" style="overflow-y: scroll; height: 500px;">
+                            <table id="response" class="table table-bordered"></table>
+                        </div>
 			<fieldset>
 				<legend>Enter your message..</legend>
 				<div class="controls">

@@ -1,6 +1,7 @@
 package com.hascode.tutorial;
 
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.json.Json;
@@ -10,6 +11,8 @@ import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
 
 public class ChatMessageDecoder implements Decoder.Text<ChatMessage> {
+    SimpleDateFormat shortDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    
 	@Override
 	public void init(final EndpointConfig config) {
 	}
@@ -25,7 +28,7 @@ public class ChatMessageDecoder implements Decoder.Text<ChatMessage> {
 				.readObject();
 		chatMessage.setMessage(obj.getString("message"));
 		chatMessage.setSender(obj.getString("sender"));
-		chatMessage.setReceived(new Date());
+		chatMessage.setReceived(shortDate.format(new Date()));
 		return chatMessage;
 	}
 

@@ -5,7 +5,7 @@ import java.util.Date;
 public class ChatMessage {
 	private String message;
 	private String sender;
-	private Date received;
+	private String received;
 
 	public final String getMessage() {
 		return message;
@@ -23,11 +23,11 @@ public class ChatMessage {
 		this.sender = sender;
 	}
 
-	public final Date getReceived() {
+	public final String getReceived() {
 		return received;
 	}
 
-	public final void setReceived(final Date received) {
+	public final void setReceived(final String received) {
 		this.received = received;
 	}
 
